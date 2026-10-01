@@ -1,20 +1,21 @@
 
-
-import subprocess
 import os
+import platform
+import socket
+import subprocess
 from datetime import datetime
+from html import escape
 
 
-# ============================================================
-# LINUX SECURITY & SYSTEM ENUMERATION TOOLKIT
-# ============================================================
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+REPORTS_DIR = os.path.join(PROJECT_ROOT, "reports")
+
+TEXT_REPORT = os.path.join(REPORTS_DIR, "system_report.txt")
+HTML_REPORT = os.path.join(REPORTS_DIR, "system_report.html")
 
 
 def run_command(command):
-    """
-    Execute a Linux command and return its output.
-    """
-
+    """Run a Linux command and safely return its output."""
     try:
         result = subprocess.run(
             command,
@@ -23,76 +24,63 @@ def run_command(command):
             timeout=10
         )
 
-        if result.returncode == 0:
-            return result.stdout.strip()
+        output = result.stdout.strip()
 
-        return result.stderr.strip()
+        if not output:
+            output = result.stderr.strip()
+
+        return output if output else "No information available."
 
     except Exception as error:
-        return f"Error: {error}"
+        return f"Unable to execute command: {error}"
 
-
-# ============================================================
-# SYSTEM INFORMATION
-# ============================================================
 
 def collect_system_information():
-
-    username = run_command(["whoami"])
-    user_id = run_command(["id"])
-    hostname = run_command(["hostname"])
-    kernel = run_command(["uname", "-a"])
-
-    os_info = run_command(["cat", "/etc/os-release"])
+    """Collect basic local system information."""
 
     return {
-        "username": username,
-        "user_id": user_id,
-        "hostname": hostname,
-        "kernel": kernel,
-        "os_info": os_info
+        "hostname": socket.gethostname(),
+        "operating_system": platform.system(),
+        "distribution": run_command(["bash", "-c", "cat /etc/os-release | grep PRETTY_NAME"]),
+        "kernel": platform.release(),
+        "architecture": platform.machine(),
+        "processor": platform.processor() or "Not available",
+        "uptime": run_command(["uptime", "-p"]),
+        "current_user": os.getenv("USER", "Unknown"),
+        "date_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     }
 
-
-# ============================================================
-# NETWORK INFORMATION
-# ============================================================
 
 def collect_network_information():
-
-    network_interfaces = run_command(["ip", "addr"])
-    routing_table = run_command(["ip", "route"])
-    listening_services = run_command(["ss", "-tuln"])
+    """Collect basic local network information."""
 
     return {
-        "network_interfaces": network_interfaces,
-        "routing_table": routing_table,
-        "listening_services": listening_services
+        "ip_addresses": run_command(["ip", "-brief", "address"]),
+        "routing_table": run_command(["ip", "route"]),
+        "listening_services": run_command(["ss", "-tuln"])
     }
 
 
-# ============================================================
-# SECURITY OBSERVATIONS
-# ============================================================
-
 def generate_security_observations(network_data):
+    """Generate simple security observations from local network data."""
 
     observations = []
 
-    interfaces = network_data["network_interfaces"]
-    services = network_data["listening_services"]
+    ip_data = network_data["ip_addresses"]
+    listening_data = network_data["listening_services"]
+    route_data = network_data["routing_table"]
 
-    if "127.0.0.1" in interfaces:
+    if "127.0.0.1" in ip_data:
         observations.append(
             "Loopback interface detected (127.0.0.1)."
         )
 
-    if "LISTEN" in services:
+    if listening_data and "No information available" not in listening_data:
         observations.append(
             "One or more listening network services were detected."
         )
 
-    if "default" in network_data["routing_table"]:
+    if route_data and "default" in route_data:
         observations.append(
             "A default network route is configured."
         )
@@ -105,183 +93,172 @@ def generate_security_observations(network_data):
     return observations
 
 
-# ============================================================
-# TEXT REPORT
-# ============================================================
-
 def create_text_report(system_data, network_data, observations):
+    """Create a human-readable text report."""
 
-    current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    lines = []
 
-    report = f"""
-============================================================
-LINUX SECURITY & SYSTEM ENUMERATION REPORT
-============================================================
+    lines.append("=" * 70)
+    lines.append("LINUX SECURITY & SYSTEM ENUMERATION TOOLKIT")
+    lines.append("=" * 70)
+    lines.append("")
+    lines.append("SYSTEM INFORMATION")
+    lines.append("-" * 70)
 
-Generated: {current_time}
+    for key, value in system_data.items():
+        lines.append(f"{key.replace('_', ' ').title()}: {value}")
 
+    lines.append("")
+    lines.append("NETWORK INFORMATION")
+    lines.append("-" * 70)
 
-SYSTEM INFORMATION
-------------------------------------------------------------
+    lines.append("")
+    lines.append("IP ADDRESSES")
+    lines.append(network_data["ip_addresses"])
 
-Current User:
-{system_data["username"]}
+    lines.append("")
+    lines.append("ROUTING TABLE")
+    lines.append(network_data["routing_table"])
 
-User / Group Information:
-{system_data["user_id"]}
+    lines.append("")
+    lines.append("LISTENING SERVICES")
+    lines.append(network_data["listening_services"])
 
-Hostname:
-{system_data["hostname"]}
-
-Kernel:
-{system_data["kernel"]}
-
-
-OS INFORMATION
-------------------------------------------------------------
-
-{system_data["os_info"]}
-
-
-NETWORK INTERFACES
-------------------------------------------------------------
-
-{network_data["network_interfaces"]}
-
-
-ROUTING TABLE
-------------------------------------------------------------
-
-{network_data["routing_table"]}
-
-
-LISTENING SERVICES
-------------------------------------------------------------
-
-{network_data["listening_services"]}
-
-
-SECURITY OBSERVATIONS
-------------------------------------------------------------
-
-"""
+    lines.append("")
+    lines.append("SECURITY OBSERVATIONS")
+    lines.append("-" * 70)
 
     for observation in observations:
-        report += f"- {observation}\n"
+        lines.append(f"- {observation}")
 
-    report += """
-============================================================
-END OF REPORT
-============================================================
-"""
+    lines.append("")
+    lines.append("=" * 70)
+    lines.append("END OF REPORT")
+    lines.append("=" * 70)
 
-    return report
+    with open(TEXT_REPORT, "w", encoding="utf-8") as file:
+        file.write("\n".join(lines))
 
-
-# ============================================================
-# HTML REPORT
-# ============================================================
 
 def create_html_report(system_data, network_data, observations):
+    """Create an HTML version of the report."""
 
-    current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    system_rows = ""
 
-    observations_html = ""
+    for key, value in system_data.items():
+        system_rows += (
+            f"<tr>"
+            f"<td>{escape(key.replace('_', ' ').title())}</td>"
+            f"<td>{escape(str(value))}</td>"
+            f"</tr>"
+        )
+
+    observation_items = ""
 
     for observation in observations:
-        observations_html += f"<li>{observation}</li>"
+        observation_items += f"<li>{escape(observation)}</li>"
 
-    html = f"""
-<!DOCTYPE html>
-<html>
+    html = f"""<!DOCTYPE html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <title>Linux Security Toolkit Report</title>
 
-<title>Linux Security Report</title>
+    <style>
+        body {{
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background: #f4f4f4;
+            color: #222;
+        }}
 
-<style>
+        .container {{
+            max-width: 1000px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+        }}
 
-body {{
-    font-family: Arial, sans-serif;
-    margin: 40px;
-    background-color: #f4f4f4;
-}}
+        h1 {{
+            margin-bottom: 5px;
+        }}
 
-.container {{
-    background-color: white;
-    padding: 30px;
-    border-radius: 10px;
-}}
+        h2 {{
+            margin-top: 30px;
+        }}
 
-h1 {{
-    color: #222;
-}}
+        table {{
+            width: 100%;
+            border-collapse: collapse;
+        }}
 
-h2 {{
-    color: #444;
-    border-bottom: 1px solid #ccc;
-    padding-bottom: 5px;
-}}
+        th, td {{
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }}
 
-pre {{
-    background-color: #eeeeee;
-    padding: 15px;
-    overflow-x: auto;
-    border-radius: 5px;
-}}
+        th {{
+            background: #eee;
+        }}
 
-li {{
-    margin: 8px 0;
-}}
+        pre {{
+            background: #111;
+            color: #eee;
+            padding: 15px;
+            overflow-x: auto;
+            border-radius: 6px;
+        }}
 
-</style>
-
+        li {{
+            margin: 8px 0;
+        }}
+    </style>
 </head>
 
 <body>
 
 <div class="container">
 
-<h1>Linux Security & System Enumeration Report</h1>
+    <h1>Linux Security & System Enumeration Toolkit</h1>
 
-<p><b>Generated:</b> {current_time}</p>
+    <p>
+        Local system and network enumeration report.
+    </p>
 
-<h2>System Information</h2>
+    <p>
+        Generated on: {escape(system_data["date_time"])}
+    </p>
 
-<pre>
-User:
-{system_data["username"]}
+    <h2>System Information</h2>
 
-User / Group:
-{system_data["user_id"]}
+    <table>
+        <tr>
+            <th>Property</th>
+            <th>Value</th>
+        </tr>
 
-Hostname:
-{system_data["hostname"]}
+        {system_rows}
+    </table>
 
-Kernel:
-{system_data["kernel"]}
-</pre>
+    <h2>IP Addresses</h2>
 
-<h2>Operating System</h2>
+    <pre>{escape(network_data["ip_addresses"])}</pre>
 
-<pre>{system_data["os_info"]}</pre>
+    <h2>Routing Table</h2>
 
-<h2>Network Interfaces</h2>
+    <pre>{escape(network_data["routing_table"])}</pre>
 
-<pre>{network_data["network_interfaces"]}</pre>
+    <h2>Listening Network Services</h2>
 
-<h2>Routing Table</h2>
+    <pre>{escape(network_data["listening_services"])}</pre>
 
-<pre>{network_data["routing_table"]}</pre>
+    <h2>Security Observations</h2>
 
-<h2>Listening Services</h2>
-
-<pre>{network_data["listening_services"]}</pre>
-
-<h2>Security Observations</h2>
-
-<ul>
-{observations_html}
-</ul>
+    <ul>
+        {observation_items}
+    </ul>
 
 </div>
 
@@ -289,78 +266,46 @@ Kernel:
 </html>
 """
 
-    return html
+    with open(HTML_REPORT, "w", encoding="utf-8") as file:
+        file.write(html)
 
-
-# ============================================================
-# FULL ENUMERATION
-# ============================================================
 
 def run_full_scan():
+    """Run the complete local enumeration process."""
+
+    os.makedirs(REPORTS_DIR, exist_ok=True)
 
     print()
     print("=" * 60)
-    print("STARTING SYSTEM ENUMERATION")
+    print("LINUX SECURITY & SYSTEM ENUMERATION TOOLKIT")
     print("=" * 60)
 
-    print("\n[1/4] Collecting system information...")
+    print("\n[+] Starting system enumeration...")
 
     system_data = collect_system_information()
-
     print("[+] System information collected")
 
-    print("\n[2/4] Collecting network information...")
-
     network_data = collect_network_information()
-
     print("[+] Network information collected")
 
-    print("\n[3/4] Generating security observations...")
-
     observations = generate_security_observations(network_data)
-
     print("[+] Security observations generated")
 
-    print("\n[4/4] Creating reports...")
-
-    text_report = create_text_report(
+    create_text_report(
         system_data,
         network_data,
         observations
     )
 
-    html_report = create_html_report(
+    create_html_report(
         system_data,
         network_data,
         observations
     )
 
-    # Create reports directory if it does not exist
-    os.makedirs("reports", exist_ok=True)
+    print("[+] Reports generated")
 
-    # Save text report
-    with open(
-        "reports/system_report.txt",
-        "w",
-        encoding="utf-8"
-    ) as file:
-
-        file.write(text_report)
-
-    # Save HTML report
-    with open(
-        "reports/system_report.html",
-        "w",
-        encoding="utf-8"
-    ) as file:
-
-        file.write(html_report)
-
-    print("[+] Text report saved")
-    print("[+] HTML report saved")
-
-    print()
-    print("=" * 60)
+    print("\n" + "=" * 60)
     print("ENUMERATION COMPLETED SUCCESSFULLY")
     print("=" * 60)
 
@@ -368,54 +313,13 @@ def run_full_scan():
     print("1. reports/system_report.txt")
     print("2. reports/system_report.html")
 
-    print("\nSecurity Observations:")
+    print("\nSecurity observations:")
 
     for observation in observations:
-        print(f"  - {observation}")
+        print(f" - {observation}")
 
     print()
 
 
-# ============================================================
-# MAIN MENU
-# ============================================================
-
-def main():
-
-    while True:
-
-        print()
-        print("=" * 60)
-        print("       LINUX SECURITY & SYSTEM ENUMERATION TOOLKIT")
-        print("=" * 60)
-
-        print()
-        print("1. Run Full Enumeration")
-        print("2. Exit")
-
-        print()
-
-        choice = input("Enter your choice: ").strip()
-
-        if choice == "1":
-
-            run_full_scan()
-
-            input("\nPress ENTER to return to the main menu...")
-
-        elif choice == "2":
-
-            print("\nExiting toolkit...")
-            break
-
-        else:
-
-            print("\nInvalid choice. Please enter 1 or 2.")
-
-
-# ============================================================
-# PROGRAM START
-# ============================================================
-
 if __name__ == "__main__":
-    main()
+    run_full_scan()

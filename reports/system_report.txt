@@ -3,7 +3,7 @@
 LINUX SECURITY & SYSTEM ENUMERATION REPORT
 ============================================================
 
-Generated: 2026-09-30 22:57:49
+Generated: 2026-10-01 13:17:24
 
 
 SYSTEM INFORMATION
@@ -50,11 +50,11 @@ NETWORK INTERFACES
 2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
     link/ether 08:00:27:84:34:a3 brd ff:ff:ff:ff:ff:ff
     inet 10.0.2.15/24 brd 10.0.2.255 scope global dynamic noprefixroute eth0
-       valid_lft 84291sec preferred_lft 84291sec
-    inet6 fd17:625c:f037:2:fa68:acc9:1e11:c9f2/64 scope global temporary dynamic 
-       valid_lft 86158sec preferred_lft 14158sec
+       valid_lft 86289sec preferred_lft 86289sec
+    inet6 fd17:625c:f037:2:946a:573:d563:6b8e/64 scope global temporary dynamic 
+       valid_lft 86290sec preferred_lft 14290sec
     inet6 fd17:625c:f037:2:a00:27ff:fe84:34a3/64 scope global dynamic mngtmpaddr noprefixroute 
-       valid_lft 86158sec preferred_lft 14158sec
+       valid_lft 86290sec preferred_lft 14290sec
     inet6 fe80::a00:27ff:fe84:34a3/64 scope link noprefixroute 
        valid_lft forever preferred_lft forever
 
@@ -70,8 +70,9 @@ LISTENING SERVICES
 ------------------------------------------------------------
 
 Netid State  Recv-Q Send-Q Local Address:Port  Peer Address:Port
-tcp   LISTEN 0      511        127.0.0.1:36107      0.0.0.0:*
-tcp   LISTEN 0      511        127.0.0.1:42811      0.0.0.0:*
+tcp   LISTEN 0      511        127.0.0.1:37175      0.0.0.0:*
+tcp   LISTEN 0      511        127.0.0.1:42189      0.0.0.0:*
+tcp   LISTEN 0      511        127.0.0.1:39519      0.0.0.0:*
 
 
 SECURITY OBSERVATIONS
