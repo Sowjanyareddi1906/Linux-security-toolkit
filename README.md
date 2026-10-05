@@ -1,100 +1,94 @@
-# Linux Security & System Enumeration Toolkit
+Linux Security & System Enumeration Toolkit
 
-A Python-based Linux security toolkit that collects basic system and network information, generates security observations, and produces TXT and HTML reports.
+A Python-based Linux security toolkit that collects basic system and network information, performs local security observations, and generates readable security reports.
 
-## Features
+Features
 
-* Collects basic Linux system information
-* Collects network configuration and information
-* Identifies basic security observations
-* Detects loopback network interfaces
-* Checks for listening network services
-* Checks for a configured default network route
-* Generates a TXT security report
-* Generates an HTML security report
-* Simple command-line interface
+- Collects basic Linux system information
+- Displays current user and user/group information
+- Detects hostname and kernel information
+- Collects operating system information
+- Enumerates network interfaces
+- Displays the routing table
+- Identifies listening network services
+- Generates basic security observations
+- Creates text-based security reports
+- Generates HTML security reports
+- Provides a simple command-line interface
 
-## Project Structure
+Project Structure
 
-```text
 Linux-security-toolkit/
 │
 ├── src/
 │   └── main.py
 │
 ├── reports/
-│   ├── system_report.txt
-│   └── system_report.html
+│   └── system_report.txt
 │
 ├── screenshots/
 │
-├── docs/
-│
 ├── tests/
 │
+├── docs/
+│
 └── README.md
-```
 
-## Requirements
+Technologies Used
 
-* Python 3
-* Linux / Kali Linux
-* Standard Python libraries
+- Python 3
+- Linux / Kali Linux
+- Linux system commands
+- Git & GitHub
+- HTML for report generation
 
-## How to Run
+How It Works
 
-Clone the repository:
+User
+  ↓
+Run Toolkit
+  ↓
+System Information Collection
+  ↓
+Network Information Collection
+  ↓
+Security Observation
+  ↓
+Report Generation
+  ↓
+TXT / HTML Report
 
-```bash
-git clone https://github.com/Sowjanyareddi1906/linux-security-toolkit.git
-cd linux-security-toolkit
-```
+How to Run
 
-Run the toolkit:
+Open a terminal inside the project directory:
 
-```bash
+cd Linux-security-toolkit
+
+Run:
+
 python3 src/main.py
-```
 
 Select:
 
-```text
 1. Run Full Enumeration
 2. Exit
-```
 
-After running the enumeration, reports are generated inside the `reports/` directory.
+The toolkit collects the available local system and network information and generates the corresponding report.
 
-## Output
+Security Purpose
 
-The toolkit generates:
+This project is intended for defensive security learning and authorized local-system assessment. It helps demonstrate basic Linux enumeration concepts that are useful in cybersecurity, vulnerability assessment, and security operations.
 
-* `reports/system_report.txt`
-* `reports/system_report.html`
+Future Improvements
 
-The reports contain collected system and network information along with basic security observations.
+- Add Nmap-based network discovery
+- Add configurable scan modules
+- Improve security-risk classification
+- Add JSON report generation
+- Add automated tests
+- Add a graphical interface
+- Add configurable logging
 
-## Security Observations
+Author
 
-The toolkit can report observations such as:
-
-* Loopback interface detected
-* Listening network services detected
-* Default network route configured
-
-These observations are intended for basic local security assessment and learning purposes.
-
-## Technologies Used
-
-* Python
-* Linux
-* Kali Linux
-* Git & GitHub
-
-## Purpose
-
-This project was developed as a cybersecurity learning project to practice Python programming, Linux system information gathering, network enumeration, report generation, and basic security analysis.
-
-## Disclaimer
-
-This toolkit is intended for educational and authorized security assessment purposes only. Use it only on systems that you own or have explicit permission to assess.
+Developed as a cybersecurity learning project using Python and Linux.
