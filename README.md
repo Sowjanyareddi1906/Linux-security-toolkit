@@ -1,20 +1,41 @@
 Linux Security & System Enumeration Toolkit
 
-A Python-based Linux security toolkit that collects basic system and network information, performs local security observations, and generates readable security reports.
+A Python-based cybersecurity toolkit for performing basic Linux system and network enumeration on an authorized local system.
+
+The project collects useful system and network information, performs simple security observations, and generates readable TXT and HTML reports.
 
 Features
 
-- Collects basic Linux system information
-- Displays current user and user/group information
-- Detects hostname and kernel information
-- Collects operating system information
-- Enumerates network interfaces
-- Displays the routing table
-- Identifies listening network services
-- Generates basic security observations
-- Creates text-based security reports
-- Generates HTML security reports
-- Provides a simple command-line interface
+- Collects Linux system information
+- Detects hostname, operating system, kernel and architecture
+- Identifies the current user and system uptime
+- Enumerates network interfaces and IP addresses
+- Displays the local routing table
+- Identifies listening TCP/UDP services
+- Performs basic security observations
+- Accepts a target IP address or hostname
+- Handles invalid target input
+- Generates structured TXT reports
+- Generates browser-friendly HTML reports
+- Designed for authorized security assessment and learning
+
+How It Works
+
+User Input
+    ↓
+Target Validation
+    ↓
+Target Resolution
+    ↓
+Basic Network Enumeration
+    ↓
+Local System Information
+    ↓
+Security Observations
+    ↓
+Report Generation
+    ↓
+TXT + HTML Reports
 
 Project Structure
 
@@ -24,7 +45,8 @@ Linux-security-toolkit/
 │   └── main.py
 │
 ├── reports/
-│   └── system_report.txt
+│   ├── system_report.txt
+│   └── system_report.html
 │
 ├── screenshots/
 │
@@ -32,63 +54,107 @@ Linux-security-toolkit/
 │
 ├── docs/
 │
+├── .gitignore
+│
 └── README.md
 
 Technologies Used
 
 - Python 3
 - Linux / Kali Linux
-- Linux system commands
-- Git & GitHub
-- HTML for report generation
+- Linux networking commands
+- HTML & CSS
+- Git
+- GitHub
 
-How It Works
+Requirements
 
-User
-  ↓
-Run Toolkit
-  ↓
-System Information Collection
-  ↓
-Network Information Collection
-  ↓
-Security Observation
-  ↓
-Report Generation
-  ↓
-TXT / HTML Report
+- Python 3.x
+- Linux-based environment
+- Basic Linux networking utilities
+
+The toolkit is designed and tested in Kali Linux.
 
 How to Run
 
-Open a terminal inside the project directory:
+Clone the repository and move into the project directory:
 
 cd Linux-security-toolkit
 
-Run:
+Run the toolkit:
 
 python3 src/main.py
 
-Select:
+The program will request a target IP address or hostname.
 
-1. Run Full Enumeration
-2. Exit
+Example:
 
-The toolkit collects the available local system and network information and generates the corresponding report.
+Enter target IP address or hostname: localhost
 
-Security Purpose
+The toolkit then performs the available enumeration and generates the corresponding reports.
 
-This project is intended for defensive security learning and authorized local-system assessment. It helps demonstrate basic Linux enumeration concepts that are useful in cybersecurity, vulnerability assessment, and security operations.
+Generated Reports
+
+The toolkit produces two report formats:
+
+TXT Report
+
+A simple terminal-friendly report containing:
+
+- System information
+- Network information
+- Routing information
+- Listening services
+- Security observations
+
+HTML Report
+
+A browser-friendly version of the assessment report with structured tables and sections for easier analysis.
+
+The generated reports are stored inside:
+
+reports/
+
+Example Security Observations
+
+Depending on the system being assessed, the toolkit can identify observations such as:
+
+- Loopback interface availability
+- Listening network services
+- Default network route configuration
+
+These observations are intended as basic indicators for security learning and are not a replacement for a complete vulnerability assessment.
+
+Testing
+
+The toolkit was tested with:
+
+- Localhost input
+- IP-based input
+- Hostname-based input
+- Invalid target input
+- TXT report generation
+- HTML report generation
+
+Security & Ethical Use
+
+This project is intended for educational purposes and authorized security assessment only.
+
+Only use the toolkit against systems, devices, and networks that you own or have explicit permission to assess.
 
 Future Improvements
 
-- Add Nmap-based network discovery
-- Add configurable scan modules
-- Improve security-risk classification
-- Add JSON report generation
-- Add automated tests
-- Add a graphical interface
-- Add configurable logging
+Planned improvements include:
+
+- Nmap-based service discovery
+- More detailed port and service analysis
+- Improved security-risk classification
+- JSON report generation
+- Automated unit tests
+- Configurable scan modules
+- Improved logging
+- Additional Linux security checks
 
 Author
 
-Developed as a cybersecurity learning project using Python and Linux.
+Developed as a cybersecurity learning project using Python and Linux, with a focus on understanding practical system enumeration and security assessment concepts.

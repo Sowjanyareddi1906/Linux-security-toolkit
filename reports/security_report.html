@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>
+Linux Security Toolkit Report
+</title>
+
+<style>
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 40px;
+    background: #f4f4f4;
+    color: #222;
+}
+
+.container {
+    max-width: 1000px;
+    margin: auto;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+}
+
+h1 {
+    margin-bottom: 5px;
+}
+
+h2 {
+    margin-top: 30px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background: #eee;
+}
+
+pre {
+    background: #111;
+    color: #eee;
+    padding: 15px;
+    overflow-x: auto;
+    border-radius: 6px;
+}
+
+li {
+    margin: 8px 0;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>
+Linux Security & System Enumeration Toolkit
+</h1>
+
+<p>
+Security assessment report for an authorized target.
+</p>
+
+<h2>Target Information</h2>
+
+<table>
+
+<tr>
+<th>Property</th>
+<th>Value</th>
+</tr>
+
+<tr>
+<td>Target</td>
+<td>127.0.0.1</td>
+</tr>
+
+<tr>
+<td>Resolved IP</td>
+<td>127.0.0.1</td>
+</tr>
+
+<tr>
+<td>Reachability</td>
+<td>Reachable</td>
+</tr>
+
+<tr>
+<td>Risk Level</td>
+<td>LOW</td>
+</tr>
+
+</table>
+
+<h2>Common TCP Services</h2>
+
+<pre>No common TCP ports detected as open.</pre>
+
+
+
+<h2>Local System Information</h2>
+
+<table>
+
+<tr>
+<th>Property</th>
+<th>Value</th>
+</tr>
+
+<tr><td>Hostname</td><td>sowjanya</td></tr><tr><td>Operating System</td><td>Linux</td></tr><tr><td>Distribution</td><td>PRETTY_NAME=&quot;Kali GNU/Linux Rolling&quot;</td></tr><tr><td>Kernel</td><td>6.19.14+kali-amd64</td></tr><tr><td>Architecture</td><td>x86_64</td></tr><tr><td>Processor</td><td>Not available</td></tr><tr><td>Uptime</td><td>up 1 hour, 9 minutes</td></tr><tr><td>Current User</td><td>sowjanya19</td></tr><tr><td>Date Time</td><td>2026-10-05 22:44:14</td></tr>
+
+</table>
+
+<h2>Local IP Addresses</h2>
+
+<pre>
+lo               UNKNOWN        127.0.0.1/8 ::1/128 
+eth0             UP             10.0.2.15/24 fd17:625c:f037:2:7cc6:1b8c:7001:b27c/64 fd17:625c:f037:2:a00:27ff:fe84:34a3/64 fe80::a00:27ff:fe84:34a3/64
+</pre>
+
+<h2>Local Routing Table</h2>
+
+<pre>
+default via 10.0.2.2 dev eth0 proto dhcp src 10.0.2.15 metric 100 
+10.0.2.0/24 dev eth0 proto kernel scope link src 10.0.2.15 metric 100
+</pre>
+
+<h2>Local Listening Services</h2>
+
+<pre>
+Netid State  Recv-Q Send-Q Local Address:Port  Peer Address:Port
+tcp   LISTEN 0      511        127.0.0.1:36999      0.0.0.0:*
+tcp   LISTEN 0      511        127.0.0.1:43981      0.0.0.0:*
+</pre>
+
+
+
+<h2>Security Observations</h2>
+
+<ul>
+
+<li>Target responded to the reachability check.</li><li>No tested common TCP services were detected as open.</li><li>Loopback interface detected on the local system.</li><li>One or more local listening network services were detected.</li><li>A default network route is configured on the local system.</li>
+
+</ul>
+
+</div>
+
+</body>
+
+</html>

@@ -2,7 +2,18 @@
 LINUX SECURITY & SYSTEM ENUMERATION TOOLKIT
 ======================================================================
 
-SYSTEM INFORMATION
+TARGET INFORMATION
+----------------------------------------------------------------------
+Target: 127.0.0.1
+Resolved IP: 127.0.0.1
+Reachability: Reachable
+Risk Level: LOW
+
+COMMON TCP SERVICES
+----------------------------------------------------------------------
+No common TCP ports detected as open.
+
+LOCAL SYSTEM INFORMATION
 ----------------------------------------------------------------------
 Hostname: sowjanya
 Operating System: Linux
@@ -10,11 +21,11 @@ Distribution: PRETTY_NAME="Kali GNU/Linux Rolling"
 Kernel: 6.19.14+kali-amd64
 Architecture: x86_64
 Processor: Not available
-Uptime: up 50 minutes
+Uptime: up 1 hour, 9 minutes
 Current User: sowjanya19
-Date Time: 2026-10-05 22:24:27
+Date Time: 2026-10-05 22:44:14
 
-NETWORK INFORMATION
+LOCAL NETWORK INFORMATION
 ----------------------------------------------------------------------
 
 IP ADDRESSES
@@ -25,16 +36,18 @@ ROUTING TABLE
 default via 10.0.2.2 dev eth0 proto dhcp src 10.0.2.15 metric 100 
 10.0.2.0/24 dev eth0 proto kernel scope link src 10.0.2.15 metric 100
 
-LISTENING SERVICES
+LOCAL LISTENING SERVICES
 Netid State  Recv-Q Send-Q Local Address:Port  Peer Address:Port
 tcp   LISTEN 0      511        127.0.0.1:36999      0.0.0.0:*
 tcp   LISTEN 0      511        127.0.0.1:43981      0.0.0.0:*
 
 SECURITY OBSERVATIONS
 ----------------------------------------------------------------------
-- Loopback interface detected (127.0.0.1).
-- One or more listening network services were detected.
-- A default network route is configured.
+- Target responded to the reachability check.
+- No tested common TCP services were detected as open.
+- Loopback interface detected on the local system.
+- One or more local listening network services were detected.
+- A default network route is configured on the local system.
 
 ======================================================================
 END OF REPORT

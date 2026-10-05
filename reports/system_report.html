@@ -1,123 +1,108 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <title>Linux Security Toolkit Report</title>
 
-<title>Linux Security Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background: #f4f4f4;
+            color: #222;
+        }
 
-<style>
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+        }
 
-body {
-    font-family: Arial, sans-serif;
-    margin: 40px;
-    background-color: #f4f4f4;
-}
+        h1 {
+            margin-bottom: 5px;
+        }
 
-.container {
-    background-color: white;
-    padding: 30px;
-    border-radius: 10px;
-}
+        h2 {
+            margin-top: 30px;
+        }
 
-h1 {
-    color: #222;
-}
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
 
-h2 {
-    color: #444;
-    border-bottom: 1px solid #ccc;
-    padding-bottom: 5px;
-}
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
 
-pre {
-    background-color: #eeeeee;
-    padding: 15px;
-    overflow-x: auto;
-    border-radius: 5px;
-}
+        th {
+            background: #eee;
+        }
 
-li {
-    margin: 8px 0;
-}
+        pre {
+            background: #111;
+            color: #eee;
+            padding: 15px;
+            overflow-x: auto;
+            border-radius: 6px;
+        }
 
-</style>
-
+        li {
+            margin: 8px 0;
+        }
+    </style>
 </head>
 
 <body>
 
 <div class="container">
 
-<h1>Linux Security & System Enumeration Report</h1>
+    <h1>Linux Security & System Enumeration Toolkit</h1>
 
-<p><b>Generated:</b> 2026-10-01 13:17:24</p>
+    <p>
+        Local system and network enumeration report.
+    </p>
 
-<h2>System Information</h2>
+    <p>
+        Generated on: 2026-10-05 22:24:27
+    </p>
 
-<pre>
-User:
-sowjanya19
+    <h2>System Information</h2>
 
-User / Group:
-uid=1000(sowjanya19) gid=1000(sowjanya19) groups=1000(sowjanya19),4(adm),20(dialout),24(cdrom),25(floppy),27(sudo),29(audio),30(dip),44(video),46(plugdev),100(users),101(netdev),102(scanner),114(wireshark),118(kaboxer),966(vboxsf),978(bluetooth),999(lpadmin)
+    <table>
+        <tr>
+            <th>Property</th>
+            <th>Value</th>
+        </tr>
 
-Hostname:
-sowjanya
+        <tr><td>Hostname</td><td>sowjanya</td></tr><tr><td>Operating System</td><td>Linux</td></tr><tr><td>Distribution</td><td>PRETTY_NAME=&quot;Kali GNU/Linux Rolling&quot;</td></tr><tr><td>Kernel</td><td>6.19.14+kali-amd64</td></tr><tr><td>Architecture</td><td>x86_64</td></tr><tr><td>Processor</td><td>Not available</td></tr><tr><td>Uptime</td><td>up 50 minutes</td></tr><tr><td>Current User</td><td>sowjanya19</td></tr><tr><td>Date Time</td><td>2026-10-05 22:24:27</td></tr>
+    </table>
 
-Kernel:
-Linux sowjanya 6.19.14+kali-amd64 #1 SMP PREEMPT_DYNAMIC Kali 6.19.14-1+kali1 (2026-05-05) x86_64 GNU/Linux
-</pre>
+    <h2>IP Addresses</h2>
 
-<h2>Operating System</h2>
+    <pre>lo               UNKNOWN        127.0.0.1/8 ::1/128 
+eth0             UP             10.0.2.15/24 fd17:625c:f037:2:7cc6:1b8c:7001:b27c/64 fd17:625c:f037:2:a00:27ff:fe84:34a3/64 fe80::a00:27ff:fe84:34a3/64</pre>
 
-<pre>PRETTY_NAME="Kali GNU/Linux Rolling"
-NAME="Kali GNU/Linux"
-VERSION_ID="2026.2"
-VERSION="2026.2"
-VERSION_CODENAME=kali-rolling
-ID=kali
-ID_LIKE=debian
-HOME_URL="https://www.kali.org/"
-SUPPORT_URL="https://forums.kali.org/"
-BUG_REPORT_URL="https://bugs.kali.org/"
-ANSI_COLOR="1;31"</pre>
+    <h2>Routing Table</h2>
 
-<h2>Network Interfaces</h2>
-
-<pre>1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
-    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
-    inet 127.0.0.1/8 scope host lo
-       valid_lft forever preferred_lft forever
-    inet6 ::1/128 scope host noprefixroute 
-       valid_lft forever preferred_lft forever
-2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
-    link/ether 08:00:27:84:34:a3 brd ff:ff:ff:ff:ff:ff
-    inet 10.0.2.15/24 brd 10.0.2.255 scope global dynamic noprefixroute eth0
-       valid_lft 86289sec preferred_lft 86289sec
-    inet6 fd17:625c:f037:2:946a:573:d563:6b8e/64 scope global temporary dynamic 
-       valid_lft 86290sec preferred_lft 14290sec
-    inet6 fd17:625c:f037:2:a00:27ff:fe84:34a3/64 scope global dynamic mngtmpaddr noprefixroute 
-       valid_lft 86290sec preferred_lft 14290sec
-    inet6 fe80::a00:27ff:fe84:34a3/64 scope link noprefixroute 
-       valid_lft forever preferred_lft forever</pre>
-
-<h2>Routing Table</h2>
-
-<pre>default via 10.0.2.2 dev eth0 proto dhcp src 10.0.2.15 metric 100 
+    <pre>default via 10.0.2.2 dev eth0 proto dhcp src 10.0.2.15 metric 100 
 10.0.2.0/24 dev eth0 proto kernel scope link src 10.0.2.15 metric 100</pre>
 
-<h2>Listening Services</h2>
+    <h2>Listening Network Services</h2>
 
-<pre>Netid State  Recv-Q Send-Q Local Address:Port  Peer Address:Port
-tcp   LISTEN 0      511        127.0.0.1:37175      0.0.0.0:*
-tcp   LISTEN 0      511        127.0.0.1:42189      0.0.0.0:*
-tcp   LISTEN 0      511        127.0.0.1:39519      0.0.0.0:*</pre>
+    <pre>Netid State  Recv-Q Send-Q Local Address:Port  Peer Address:Port
+tcp   LISTEN 0      511        127.0.0.1:36999      0.0.0.0:*
+tcp   LISTEN 0      511        127.0.0.1:43981      0.0.0.0:*</pre>
 
-<h2>Security Observations</h2>
+    <h2>Security Observations</h2>
 
-<ul>
-<li>Loopback interface detected (127.0.0.1).</li><li>One or more listening network services were detected.</li><li>A default network route is configured.</li>
-</ul>
+    <ul>
+        <li>Loopback interface detected (127.0.0.1).</li><li>One or more listening network services were detected.</li><li>A default network route is configured.</li>
+    </ul>
 
 </div>
 
